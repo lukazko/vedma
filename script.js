@@ -44,21 +44,42 @@ $(document).ready(function () {
     }
 
     /**
+     * Replaces multi-word phrases with single words in a text.
+     * @param {string} text - The input text to be processed.
+     * @param {string[]} multiWordPhrases - Array of multi-word phrases to replace.
+     * @returns {string} The processed text with multi-word phrases replaced.
+     */
+    function replaceMultiWordPhrases(text, multiWordPhrases) {
+        multiWordPhrases.forEach(phrase => {
+            const regex = new RegExp(phrase.trim().replace(/\s+/g, '\\s+'), 'gi');
+            text = text.replace(regex, phrase.replace(/\s+/g, ''));
+        });
+        return text;
+    }
+
+    /**
      * Handles the click event to calculate the total Levenshtein distance word by word.
      * Displays the result in the HTML.
      */
     $('#calculate').click(function () {
         const text1 = $('#text1').val().trim(); // Get and trim the first text input.
         const text2 = $('#text2').val().trim(); // Get and trim the second text input.
+        const multiWordInput = $('#multiWordPhrases').val().trim(); // Get and trim the multi-word phrases input.
 
-        // Validate that both fields have text.
+        // Validate that both main text fields have text.
         if (text1 === "" || text2 === "") {
-            $('#result').text('Please enter text in both fields.');
+            $('#result').text('Please enter text in both main fields.');
             return;
         }
 
-        const words1 = cleanAndSplit(text1); // Clean and split the first text.
-        const words2 = cleanAndSplit(text2); // Clean and split the second text.
+        const multiWordPhrases = multiWordInput.split(',').map(phrase => phrase.trim()); // Split and clean multi-word phrases.
+
+        // Replace multi-word phrases with single words in both texts.
+        const processedText1 = replaceMultiWordPhrases(text1, multiWordPhrases);
+        const processedText2 = replaceMultiWordPhrases(text2, multiWordPhrases);
+
+        const words1 = cleanAndSplit(processedText1); // Clean and split the first processed text.
+        const words2 = cleanAndSplit(processedText2); // Clean and split the second processed text.
 
         const maxLength = Math.max(words1.length, words2.length); // Determine the longer word list.
         let totalDistance = 0; // Initialize total distance.
