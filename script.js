@@ -35,12 +35,12 @@ $(document).ready(function () {
     }
 
     /**
-     * Cleans a text by removing punctuation and splitting it into words.
+     * Cleans a text by removing punctuation, converting to lowercase, and splitting it into words.
      * @param {string} text - The input text to be cleaned and split.
      * @returns {string[]} An array of words from the cleaned text.
      */
     function cleanAndSplit(text) {
-        return text.replace(/[.,!?;:]/g, '').split(/\s+/); // Remove punctuation and split by whitespace.
+        return text.replace(/[.,!?;:]/g, '').toLowerCase().split(/\s+/); // Remove punctuation, convert to lowercase, and split by whitespace.
     }
 
     /**
