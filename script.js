@@ -40,7 +40,7 @@ $(document).ready(function () {
      * @returns {string[]} An array of words from the cleaned text.
      */
     function cleanAndSplit(text) {
-        return text.replace(/[.,!?;:]/g, '').replace('\'','’').toLowerCase().split(/\s+/); // Remove punctuation, standard apostrophes, convert to lowercase, and split by whitespace.
+        return text.replace(/[.,!?;:]/g, '').replace(/[']/g,'’').toLowerCase().split(/\s+/); // Remove punctuation, standard apostrophes, convert to lowercase, and split by whitespace.
     }
 
     /**
